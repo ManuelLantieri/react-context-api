@@ -12,7 +12,7 @@ export const AlertProvider = ({ children }) => {
   };
 
   return (
-    <AlertContext.Provider value={{ showAlert }}>
+    <AlertContext.Provider value={{ alert, showAlert }}>
       <Alert message={alert.message} type={alert.type} />
       {children}
     </AlertContext.Provider>
