@@ -6,19 +6,22 @@ import PostDetail from "./pages/PostDetail";
 import About from "./pages/About";
 import Navbar from "./components/Navbar";
 import { AlertProvider } from "./context/AlertContext";
+import { SearchProvider } from "./context/SearchContext";
 
 function App() {
   return (
     <AlertProvider>
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/posts" component={Posts} />
-          <Route path="/posts/:id" component={PostDetail} />
-          <Route path="/about" component={About} />
-        </Switch>
-      </Router>
+      <SearchProvider>
+        <Router>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/posts" component={Posts} />
+            <Route path="/posts/:id" component={PostDetail} />
+            <Route path="/about" component={About} />
+          </Switch>
+        </Router>
+      </SearchProvider>
     </AlertProvider>
   );
 }
