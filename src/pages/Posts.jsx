@@ -1,34 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-const posts = [
-  {
-    id: 1,
-    title: "La ricetta perfetta per una torta",
-    content: "Ecco come fare una torta perfetta...",
-  },
-  {
-    id: 2,
-    title: "I biscotti che non puoi perdere",
-    content: "Scopri la nostra ricetta per biscotti croccanti...",
-  },
-  {
-    id: 3,
-    title: "La macedonia estiva",
-    content: "Un mix fresco e sano di frutta di stagione...",
-  },
-];
+import { useAlert } from "../context/AlertContext";
 
 const Posts = () => {
   const { showAlert } = useAlert();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      title: "Torta Perfetta",
+      content: "Scopri come fare una torta soffice...",
+    },
+    {
+      id: 2,
+      title: "Biscotti Croccanti",
+      content: "La ricetta per i biscotti più croccanti!",
+    },
+  ]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    new Promise((resolve) => {
+      setTimeout(() => resolve({ id: posts.length + 1, title, content }), 1000);
+    })
+      .then((newPost) => {
+        setPosts([...posts, newPost]);
+        showAlert("Post creato con successo!", "success"); // ALERT SUCCESSO
+        setTitle("");
+        setContent("");
+      })
+      .catch(() => {
+        showAlert("Errore nella creazione del post!", "error"); // ALERT ERRORE
+      });
+  };
+
   return (
     <div>
       <h1>Lista dei Post</h1>
-      <button
-        onClick={() => showAlert("Lista caricata con successo!", "success")}
-      >
-        Mostra Alert
-      </button>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Titolo"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+        <textarea
+          placeholder="Contenuto"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+        />
+        <button type="submit">Crea Post</button>
+      </form>
+
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
