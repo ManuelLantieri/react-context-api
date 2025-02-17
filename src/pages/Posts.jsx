@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAlert } from "../context/AlertContext";
+import { useSearch } from "../context/SearchContext";
 
 const Posts = () => {
   const { showAlert } = useAlert();
+  const { searchQuery } = useSearch();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [posts, setPosts] = useState([
@@ -36,32 +38,40 @@ const Posts = () => {
       });
   };
 
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
-      <h1>Lista dei Post</h1>
+      <h1>Lista delle merende</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Titolo"
+          placeholder="nome merenda"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
         />
         <textarea
-          placeholder="Contenuto"
+          placeholder="descrizione"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
         />
-        <button type="submit">Crea Post</button>
+        <button type="submit">aggiungi merenda</button>
       </form>
 
       <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <Link to={`/posts/${post.id}`}>{post.title}</Link>
-          </li>
-        ))}
+        {filteredPosts.length > 0 ? (
+          filteredPosts.map((post) => (
+            <li key={post.id}>
+              <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            </li>
+          ))
+        ) : (
+          <p>Nessuna merenda trovata trovata</p>
+        )}
       </ul>
     </div>
   );
