@@ -5,18 +5,21 @@ import Posts from "./pages/Posts";
 import PostDetail from "./pages/PostDetail";
 import About from "./pages/About";
 import Navbar from "./components/Navbar";
+import { AlertProvider } from "./context/AlertContext";
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/posts" component={Posts} />
-        <Route path="/posts/:id" component={PostDetail} />
-        <Route path="/about" component={About} />
-      </Switch>
-    </Router>
+    <AlertProvider>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/posts" component={Posts} />
+          <Route path="/posts/:id" component={PostDetail} />
+          <Route path="/about" component={About} />
+        </Switch>
+      </Router>
+    </AlertProvider>
   );
 }
 

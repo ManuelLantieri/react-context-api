@@ -20,9 +20,15 @@ const posts = [
 ];
 
 const Posts = () => {
+  const { showAlert } = useAlert();
   return (
     <div>
       <h1>Lista dei Post</h1>
+      <button
+        onClick={() => showAlert("Lista caricata con successo!", "success")}
+      >
+        Mostra Alert
+      </button>
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
